@@ -1,0 +1,132 @@
+%\documentclass[11pt]{article}
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage{flexisym}
+\usepackage{amsmath}
+
+\usepackage[czech]{babel}
+\author{Anonymous}
+\begin{document}
+
+\part{Regulární jazyky}
+\section{Úvod do regulárních jazyků}
+
+\subsection{Základní pojmy z oblasti formálních jazyků}
+\begin{itemize}
+	\item symbol
+	\item abeceda
+	\item řetězec
+	\begin{itemize}
+		\item délka řetězce
+		\item prázdný jazyk
+	\end{itemize}
+	\item formální jazyk nad abecedou
+	\item Konkatenace nad řetězci (symbol $\cdot$)
+	\begin{itemize}
+		\item signatura operace $\Sigma^* \times \Sigma^* \rightarrow \Sigma^*$
+		\item $w,w' \in \Sigma^*$: 
+		\item $w = a_1a_2...a_n$, 
+		\item $w' = a'_1a'_2...a'_m$, $n,m \geq 0$
+		\item $w \cdot w' = a_1a_2...a_na'_1a'_2...a'_m$
+		\item Vlastnosti: asociativní operace, neutrální prvek $\varepsilon$ vzhledem k operaci $\cdot$
+	\end{itemize}
+	\item Další pojmy: prefix, sufix, podřetězec, podposloupnost,
+	\item mocnina řetězce $a^i$
+	\item operace nad jazyky:
+	\begin{itemize}
+		\item jsou definovány množinové operace (sjednocení, průnik, doplněk, rozdíl, $\ldots$)
+		\item konkatenace jazyků $L_1$ a $L_2$
+		\begin{itemize}
+			\item signatura operace: $2^{\Sigma^*} \times 2^{\Sigma^*} \rightarrow 2^{\Sigma^*}$
+			\item vstup: $L_1$ nad $\Sigma_1$ a $L_2$ nad $\Sigma_2$
+			\item výstup: jazyk $L$ nad $\Sigma_1 \cup \Sigma_2$
+			\item $L_1 \cdot L_2 = \lbrace xy \; | \; x \in L_1 \wedge y \in L_2 \rbrace$ 
+		\end{itemize}
+		\item iterace jazyků:
+		\begin{itemize}
+			\item $L^0 = \lbrace \varepsilon \rbrace$
+			\item $L^n = L \cdot L^{n-1} $
+			\item $L^* = \bigcup_{n \geq 0}L^n$
+			\item $L^+ = \bigcup_{n \geq 1}L^n$
+		\end{itemize}
+	\end{itemize}
+\item Gramatika $ G = (N, \Sigma, P,S)$, $N \cap \Sigma = \emptyset$
+	\begin{itemize}
+		\item $P$ je množina pravidel ve tvaru $(\alpha, \beta) \in P$, kde $\alpha$ obsahuje alespoň jeden nonterminál a $beta$ je libovolná posloupnost terminálů a nonterminálů
+		\item zápis pomocí relace: $(N \cup \Sigma)^*N(N \cup \Sigma)^* \times (N \cup \Sigma)^*$
+		\item alternativně: zápis pomocí funkce $(N \cup \Sigma)^*N(N \cup \Sigma)^* \rightarrow (N \cup \Sigma)^*$
+	\end{itemize}
+\item Relace přímé derivace $\Rightarrow$ je definována na množině $(N \cup \Sigma)^*$
+\begin{itemize}
+	\item $ \lambda \Rightarrow \mu  \overset{def}{\Longleftrightarrow} \lambda = \gamma \alpha \delta \; \wedge \; \mu = \gamma \beta \delta \; \wedge \; (\alpha, \beta) \in P$ 
+\end{itemize}
+\item Relace derivace $\Rightarrow^+$ je tranzitivní uzávěr relace přímé derivace
+\begin{itemize}
+	\item Pokud platí $\lambda \Rightarrow^+ \mu $, pak existuje posloupnost derivací délky $n \geq 1$, přičemž derivace délky $n$ obsahuje $n+1$ prvků z množiny  $(N \cup \Sigma)^*$
+\end{itemize}
+\item $\Rightarrow^*$ je potom tranzitivní a relflexivní uzávěr relace přímé derivace
+\item Větná forma: $S \Rightarrow^* \alpha$, kde $\alpha \in  (N \cup \Sigma)^*$
+\item Věta: $S \Rightarrow^* \alpha$, kde $\alpha \in  \Sigma^*$
+\item jazyk generovaný gramatikou $G$: $L(G) = \lbrace w \in \Sigma^* \;|\; S \Rightarrow^* w \rbrace$
+\item Chomského hierarchie:
+\begin{itemize}
+	\item Typ 0 - neomezené gramatiky: $(N \cup \Sigma)^*N(N \cup \Sigma)^* \rightarrow (N \cup \Sigma)^*$
+	\item Typ 1 - kontextové gramatiky:
+	\item Typ 2 - bezkontextové gramatiky: $A \rightarrow \alpha$
+	\item Typ 3 - regulární gramatiky: $A \rightarrow xB| x|\varepsilon$
+\end{itemize}
+
+\end{itemize}
+\subsection{Konečné automaty a regulární jazyky}
+\begin{itemize}
+	\item NKA $M = (Q, \Sigma, \delta, q_0, F)$
+	\begin{itemize}
+		\item $\delta$: $Q \times \Sigma \rightarrow 2^Q$
+		\item pokud $\forall q \in Q \; \forall a \in \Sigma$:$|\delta(q,a)| \leq 1$, potom $M$ je DKA  
+	\end{itemize}
+	\item lze definovat DKA s upravenou přechodovou funkcí $\delta$: $Q \times \Sigma \rightarrow Q$
+	\item lze definovat RKA s rozšířenou přechodovou funkcí $\delta$: $Q \times (\Sigma \cup \lbrace \varepsilon \rbrace) \rightarrow 2^Q$
+	\item konfigurace je prvek $(q,w)$ z $Q \times \Sigma^*$
+	\begin{itemize}
+		\item $q$ je aktuální stav
+		\item $w$ je doposud nezpracovaná část vstupního řetězce
+	\end{itemize}
+	\item počáteční konfigurace: $(q_0, a_1a_2\ldots a_n)$
+	\item koncová konfigurace: $(q_F, \varepsilon)$, kde $q_F \in F$
+	\item přechodová relace automatu $M$ je binární relace $\underset{M}{\vdash}$ na množině konfigurací $(Q \times \Sigma^*), \;\underset{M}{\vdash} \subseteq (Q \times \Sigma^*) \times (Q \times \Sigma^*)$
+	\begin{itemize}
+		\item $(q,w)\;\underset{M}{\vdash}\;(q',w') \overset{def}{\Longleftrightarrow} w = aw' \wedge q' \in \delta(q,a)$, pro $q, q' \in Q, a \in \Sigma, w,w' \in \Sigma^*$
+	\end{itemize}
+	\item řetězec přijímaný NKA je definován: $(q_0, w) \overset{*}{\underset{M}{\vdash}} (q, \varepsilon), \; q \in F$
+	\item epsilon uzávěr je funkce, $\varepsilon$-uzávěr($q$) $ = \lbrace p \;|\; \exists w \in \Sigma^*: (q,w) \overset{*}{\vdash}(p,w) \rbrace$
+	\item zobecnění pro libovolnou množinu $T \subseteq Q$: $\varepsilon$-uzávěr($T$) $ = \underset{s \in T}{\bigcup} \varepsilon$-uzávěr($s$)  
+\end{itemize}
+
+\subsection{Regulární množiny a výrazy}
+Následující množiny jsou regulární množiny nad $\Sigma$ a žádné jiné:
+\begin{itemize}
+	\item $\emptyset$
+	\item $\lbrace \varepsilon \rbrace$
+	\item $\lbrace a \rbrace$
+	\item je-li $R$ a $S$ regulární množina, potom:
+	\begin{itemize}
+		\item $R \cup S$
+		\item $R \cdot S$
+		\item $R^*$  
+	\end{itemize}
+\end{itemize}
+Regulární výrazy označují regulární množiny, tak, že:
+\begin{itemize}
+	\item $\emptyset$ je RV značící regulární množinu $\emptyset$
+	\item $\varepsilon$ RV značící regulární množinu $\lbrace \varepsilon \rbrace$
+	\item $a$ RV značící regulární množinu $\lbrace a \rbrace$, pro všechna $a \in \Sigma$
+	\item je-li $r$ a $s$ RV značící regulární množiny $R$ a $S$, pak:
+	\begin{itemize}
+		\item $(r+s)$ je RV značící regulární množinu $R \cup S$
+		\item $(rs)$ je RV značící regulární množinu $R \cdot S$
+		\item $(r^*)$ je RV značící regulární množinu $R^*$
+	\end{itemize}
+\end{itemize}
+
+
+\end{document}
